@@ -1,4 +1,4 @@
-package com.manrique.academic.management.application.dto.response;
+package com.manrique.academic.management.application.dto.response.alumno;
 
 import com.manrique.academic.management.domain.enums.EstatusAlumno;
 import lombok.AllArgsConstructor;
