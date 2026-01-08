@@ -1,4 +1,4 @@
-package com.manrique.academic.management.application.dto.request;
+package com.manrique.academic.management.application.dto.request.alumno;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

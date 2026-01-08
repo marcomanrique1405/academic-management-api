@@ -1,8 +1,9 @@
 package com.manrique.academic.management.application.service.alumno;
 
-import com.manrique.academic.management.application.dto.request.BuscarAlumnoPaginadoRequest;
-import com.manrique.academic.management.application.dto.request.CrearAlumnoRequest;
-import com.manrique.academic.management.application.dto.response.AlumnoResponse;
+import com.manrique.academic.management.application.dto.request.alumno.ActualizarAlumnoRequest;
+import com.manrique.academic.management.application.dto.request.alumno.BuscarAlumnoPaginadoRequest;
+import com.manrique.academic.management.application.dto.request.alumno.CrearAlumnoRequest;
+import com.manrique.academic.management.application.dto.response.alumno.AlumnoResponse;
 import com.manrique.academic.management.domain.enums.EstatusAlumno;
 import com.manrique.academic.management.domain.model.Alumno;
 import com.manrique.academic.management.infrastructure.repository.AlumnoRepository;
@@ -12,16 +13,17 @@ import com.manrique.academic.management.shared.exception.alumno.MatriculaAlready
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CrearAlumnoService {
+@Service
+public class AlumnoService {
     private final AlumnoRepository alumnoRepository;
 
-    public CrearAlumnoService(AlumnoRepository alumnoRepository) { this.alumnoRepository = alumnoRepository; }
+    public AlumnoService(AlumnoRepository alumnoRepository) { this.alumnoRepository = alumnoRepository; }
 
     public Page<AlumnoResponse> listarAlumnosPaginados(BuscarAlumnoPaginadoRequest request) {
         Pageable pageable = PageRequest.of(
@@ -128,7 +130,56 @@ public class CrearAlumnoService {
         return toResponse(alumno);
     }
 
+    public AlumnoResponse actualizarParcial(ActualizarAlumnoRequest request, UUID id) {
+        Optional<Alumno> alumnoOptional = alumnoRepository.findById(id);
 
+        if (alumnoOptional.isEmpty()) {
+            throw new AlumnoNotFoundExceptioin(id);
+        }
+
+        Alumno alumno = alumnoOptional.get();
+
+        if (alumno.getNombre() != null) {
+            alumno.setNombre(request.getNombre());
+        }
+
+        if (alumno.getApellidoPaterno() != null) {
+            alumno.setApellidoPaterno(request.getApellidoPaterno());
+        }
+
+        if (alumno.getApellidoMaterno() != null) {
+            alumno.setApellidoMaterno(request.getGetApellidoMaterno());
+        }
+
+        if (alumno.getEmail() != null) {
+            if (alumnoRepository.existsByEmail(request.getEmail())) {
+                throw new EmailAlreadyExistsException(request.getEmail());
+            }
+            alumno.setEmail(request.getEmail());
+        }
+
+        if (alumno.getEstatus() != null) {
+            alumno.setEstatus(request.getEstatus());
+        }
+
+        alumnoRepository.save(alumno);
+
+        return toResponse(alumno);
+    }
+
+
+    public void eliminarAlumno(UUID id) {
+        Optional<Alumno> alumnoOptional = alumnoRepository.findById(id);
+
+        if (alumnoOptional.isEmpty()) {
+            throw new AlumnoNotFoundExceptioin(id);
+        }
+
+        alumnoRepository.deleteById(id);
+
+    }
+
+    //Solo falta agregar el del cardex
 
 
 }
