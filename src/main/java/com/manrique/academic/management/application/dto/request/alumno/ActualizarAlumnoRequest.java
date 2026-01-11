@@ -1,17 +1,24 @@
 package com.manrique.academic.management.application.dto.request.alumno;
 
-import com.manrique.academic.management.domain.enums.EstatusAlumno;
+
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
 public class ActualizarAlumnoRequest {
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
+
+    @NotBlank(message = "El apellido paterno es obligatorio")
     private String apellidoPaterno;
-    private String getApellidoMaterno;
+
+    @NotBlank(message = "El apellido materno es obligatorio")
+    private String apellidoMaterno;
+
+    @NotBlank(message = "El email es obligatorio")
     private String email;
+
     private String telefono;
-    private EstatusAlumno estatus;
 }
