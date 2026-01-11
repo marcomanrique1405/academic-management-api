@@ -9,7 +9,7 @@ import lombok.Getter;
 public class ActualizarParcialRequest {
     private String nombre;
     private String apellidoPaterno;
-    private String getApellidoMaterno;
+    private String apellidoMaterno;
     private String email;
     private String telefono;
     private EstatusAlumno estatus;

@@ -42,7 +42,7 @@ public class AlumnoController {
         return alumnoService.actualizarAlumnoCompleto(request, id);
     }
 
-
+    @PatchMapping("/{id}")
     public AlumnoResponse actualizarAlumnoParcial(@RequestBody ActualizarParcialRequest request, @PathVariable UUID id) {
         return alumnoService.actualizarParcial(request, id);
     }
