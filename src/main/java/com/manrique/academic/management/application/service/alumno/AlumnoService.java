@@ -1,13 +1,14 @@
 package com.manrique.academic.management.application.service.alumno;
 
 import com.manrique.academic.management.application.dto.request.alumno.ActualizarAlumnoRequest;
+import com.manrique.academic.management.application.dto.request.alumno.ActualizarParcialRequest;
 import com.manrique.academic.management.application.dto.request.alumno.BuscarAlumnoPaginadoRequest;
 import com.manrique.academic.management.application.dto.request.alumno.CrearAlumnoRequest;
 import com.manrique.academic.management.application.dto.response.alumno.AlumnoResponse;
 import com.manrique.academic.management.domain.enums.EstatusAlumno;
 import com.manrique.academic.management.domain.model.Alumno;
 import com.manrique.academic.management.infrastructure.repository.AlumnoRepository;
-import com.manrique.academic.management.shared.exception.alumno.AlumnoNotFoundExceptioin;
+import com.manrique.academic.management.shared.exception.alumno.AlumnoNotFoundException;
 import com.manrique.academic.management.shared.exception.alumno.EmailAlreadyExistsException;
 import com.manrique.academic.management.shared.exception.alumno.MatriculaAlreadyExistsException;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ public class AlumnoService {
                 limitarSize(request.getSize())
         );
 
-        Page<Alumno> alumnos = alumnoRepository.findByMatriculaContainingAndNombreContainingAndEstatus(
+        Page<Alumno> alumnos = alumnoRepository.buscarAlumnos(
                 valor(request.getMatricula()),
                 valor(request.getNombre()),
                 request.getEstatus(),
@@ -63,7 +64,7 @@ public class AlumnoService {
         Optional<Alumno> optionalAlumno = alumnoRepository.findById(id);
 
         if (optionalAlumno.isEmpty()){
-            throw new AlumnoNotFoundExceptioin(id);
+            throw new AlumnoNotFoundException(id);
         }
 
         Alumno alumno = optionalAlumno.get();
@@ -93,30 +94,27 @@ public class AlumnoService {
                 LocalDate.now(),
                 EstatusAlumno.ACTIVO);
 
+        System.out.println(alumno.getEmail());
+
         alumnoRepository.save(alumno);
 
         return toResponse(alumno);
 
     }
 
-    public AlumnoResponse actualizarAlumnoCompleto(CrearAlumnoRequest request, UUID id) {
+    public AlumnoResponse actualizarAlumnoCompleto(ActualizarAlumnoRequest request, UUID id) {
         Optional<Alumno> alumnoOptional = alumnoRepository.findById(id);
 
         if (alumnoOptional.isEmpty()){
-            throw new AlumnoNotFoundExceptioin(id);
+            throw new AlumnoNotFoundException(id);
         }
 
         Alumno alumno = alumnoOptional.get();
-
-        if (alumnoRepository.existsByMatricula(request.getMatricula())) {
-            throw new MatriculaAlreadyExistsException(request.getMatricula());
-        }
 
         if (alumnoRepository.existsByEmail(request.getEmail())) {
             throw new EmailAlreadyExistsException(request.getEmail());
         }
 
-        alumno.setMatricula(request.getMatricula());
         alumno.setNombre(request.getNombre());
         alumno.setApellidoPaterno(request.getApellidoPaterno());
         alumno.setApellidoMaterno(request.getApellidoMaterno());
@@ -130,11 +128,11 @@ public class AlumnoService {
         return toResponse(alumno);
     }
 
-    public AlumnoResponse actualizarParcial(ActualizarAlumnoRequest request, UUID id) {
+    public AlumnoResponse actualizarParcial(ActualizarParcialRequest request, UUID id) {
         Optional<Alumno> alumnoOptional = alumnoRepository.findById(id);
 
         if (alumnoOptional.isEmpty()) {
-            throw new AlumnoNotFoundExceptioin(id);
+            throw new AlumnoNotFoundException(id);
         }
 
         Alumno alumno = alumnoOptional.get();
@@ -172,7 +170,7 @@ public class AlumnoService {
         Optional<Alumno> alumnoOptional = alumnoRepository.findById(id);
 
         if (alumnoOptional.isEmpty()) {
-            throw new AlumnoNotFoundExceptioin(id);
+            throw new AlumnoNotFoundException(id);
         }
 
         alumnoRepository.deleteById(id);
