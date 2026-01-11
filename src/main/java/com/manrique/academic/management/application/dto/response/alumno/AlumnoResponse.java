@@ -12,5 +12,7 @@ public class AlumnoResponse {
     private UUID id;
     private String matricula;
     private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private EstatusAlumno estatus;
 }

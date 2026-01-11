@@ -55,6 +55,8 @@ public class AlumnoService {
                 alumno.getId(),
                 alumno.getMatricula(),
                 alumno.getNombre(),
+                alumno.getApellidoPaterno(),
+                alumno.getApellidoMaterno(),
                 alumno.getEstatus()
         );
     }
@@ -146,7 +148,7 @@ public class AlumnoService {
         }
 
         if (alumno.getApellidoMaterno() != null) {
-            alumno.setApellidoMaterno(request.getGetApellidoMaterno());
+            alumno.setApellidoMaterno(request.getApellidoMaterno());
         }
 
         if (alumno.getEmail() != null) {
