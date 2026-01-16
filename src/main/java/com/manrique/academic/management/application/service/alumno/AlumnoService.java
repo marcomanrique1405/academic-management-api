@@ -96,7 +96,6 @@ public class AlumnoService {
                 LocalDate.now(),
                 EstatusAlumno.ACTIVO);
 
-        System.out.println(alumno.getEmail());
 
         alumnoRepository.save(alumno);
 
@@ -179,7 +178,10 @@ public class AlumnoService {
 
     }
 
-    //Solo falta agregar el del cardex
+    /**
+     * FALTA ESTE:
+     * GET /alumnos/{id}/kardex?periodo= — historial de inscripciones/calificaciones.
+     */
 
 
 }
