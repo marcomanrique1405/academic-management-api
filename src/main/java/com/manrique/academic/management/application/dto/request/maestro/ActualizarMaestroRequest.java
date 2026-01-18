@@ -12,6 +12,7 @@ import lombok.Setter;
 public class ActualizarMaestroRequest {
     @NotBlank
     private String numeroEmpleado;
+
     @NotBlank
     private String nombreCompleto;
 
