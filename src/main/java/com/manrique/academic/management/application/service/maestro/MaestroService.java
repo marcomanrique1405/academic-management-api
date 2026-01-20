@@ -8,6 +8,9 @@ import com.manrique.academic.management.application.dto.response.maestro.Maestro
 import com.manrique.academic.management.domain.enums.EstatusMaestro;
 import com.manrique.academic.management.domain.model.Maestro;
 import com.manrique.academic.management.infrastructure.repository.MaestroRepository;
+import com.manrique.academic.management.shared.exception.maestro.EmailAlreadyExistsException;
+import com.manrique.academic.management.shared.exception.maestro.MaestroNotFoundException;
+import com.manrique.academic.management.shared.exception.maestro.NumeroEmpleadoAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,7 +52,7 @@ public class MaestroService {
         Optional<Maestro> optionalMaestro = maestroRepository.findById(id);
 
         if (optionalMaestro.isEmpty()) {
-            //Falta agregar la excepcion
+            throw new MaestroNotFoundException(id);
         }
 
         Maestro maestro = optionalMaestro.get();
@@ -59,11 +62,11 @@ public class MaestroService {
 
     public MaestroResponse crearMaestro(CrearMaestroRequest request) {
         if (maestroRepository.existsByNumeroEmpleado(request.getNumeroEmpleado())) {
-            //Falta excepcion
+            throw new NumeroEmpleadoAlreadyExistsException(request.getNumeroEmpleado());
         }
 
         if (maestroRepository.existsByEmail(request.getEmail())) {
-            //Falta la excepcion
+            throw new EmailAlreadyExistsException(request.getEmail());
         }
 
         Maestro maestro = new Maestro(
@@ -84,13 +87,13 @@ public class MaestroService {
         Optional<Maestro> optionalMaestro = maestroRepository.findById(id);
 
         if (optionalMaestro.isEmpty()) {
-            //falta exception
+            throw new MaestroNotFoundException(id);
         }
 
         Maestro maestro = optionalMaestro.get();
 
         if (maestroRepository.existsByEmail(request.getEmail())) {
-            //falta excepcion
+            throw new EmailAlreadyExistsException(request.getEmail());
         }
 
         maestro.setNombreCompleto(request.getNombreCompleto());
@@ -107,14 +110,14 @@ public class MaestroService {
         Optional<Maestro> optionalMaestro = maestroRepository.findById(id);
 
         if (optionalMaestro.isEmpty()) {
-            //Falta exception
+            throw new MaestroNotFoundException(id);
         }
 
         Maestro maestro = optionalMaestro.get();
 
         if (maestro.getNumeroEmpleado() != null) {
             if (maestroRepository.existsByNumeroEmpleado(request.getNumeroEmpleado())) {
-                //Falta excepcion
+                throw new NumeroEmpleadoAlreadyExistsException(request.getNumeroEmpleado());
             }
             maestro.setNumeroEmpleado(request.getNumeroEmpleado());
         }
@@ -125,7 +128,7 @@ public class MaestroService {
 
         if (maestro.getEmail() != null ) {
             if (maestroRepository.existsByEmail(request.getEmail())) {
-                //Falta exception
+                throw new EmailAlreadyExistsException(request.getEmail());
             }
             maestro.setEmail(request.getEmail());
         }
@@ -147,7 +150,7 @@ public class MaestroService {
         Optional<Maestro> optionalMaestro = maestroRepository.findById(id);
 
         if (optionalMaestro.isEmpty()) {
-            //Falta exception
+            throw new MaestroNotFoundException(id);
         }
 
         maestroRepository.deleteById(id);
