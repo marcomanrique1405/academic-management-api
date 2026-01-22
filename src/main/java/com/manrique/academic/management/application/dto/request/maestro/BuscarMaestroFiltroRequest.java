@@ -11,9 +11,7 @@ import lombok.Setter;
 @Setter
 public class BuscarMaestroFiltroRequest {
 
-    @NotBlank
     private String numeroEmpleado;
 
-    @NotBlank
     private EstatusMaestro estatus;
 }

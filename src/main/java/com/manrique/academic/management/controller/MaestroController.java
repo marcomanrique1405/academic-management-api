@@ -27,8 +27,8 @@ public class MaestroController {
         return maestroService.crearMaestro(request);
     }
 
-    @GetMapping
-    public List<MaestroResponse> buscarMaestroPorFiltro(@RequestBody BuscarMaestroFiltroRequest request) {
+    @PostMapping("/buscar")
+    public List<MaestroResponse> buscarMaestroPorFiltro(@RequestBody(required = false) BuscarMaestroFiltroRequest request) {
         return maestroService.buscarMaestroPorFiltros(request);
     }
 
