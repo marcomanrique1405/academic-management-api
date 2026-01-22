@@ -27,17 +27,22 @@ public class MaestroService {
     }
 
     public List<MaestroResponse> buscarMaestroPorFiltros(BuscarMaestroFiltroRequest request) {
+
+        if (request == null) {
+            request = new BuscarMaestroFiltroRequest(null, null);
+        }
+
         List<Maestro> maestros = maestroRepository.buscarMaestros(
                 request.getNumeroEmpleado(),
-                request.getEstatus());
+                request.getEstatus()
+        );
 
-        return Optional.ofNullable(maestros)
-                .orElse(List.of())
-                .stream()
+        return maestros.stream()
                 .map(this::toResponse)
                 .toList();
-
     }
+
+
 
     private MaestroResponse toResponse(Maestro maestro) {
         return new MaestroResponse(
@@ -91,6 +96,11 @@ public class MaestroService {
         }
 
         Maestro maestro = optionalMaestro.get();
+
+        if (!maestro.getNumeroEmpleado().equals(request.getNumeroEmpleado()) && maestroRepository.existsByNumeroEmpleado(request.getNumeroEmpleado())) {
+            throw new NumeroEmpleadoAlreadyExistsException(request.getNumeroEmpleado());
+        }
+
 
         if (maestroRepository.existsByEmail(request.getEmail())) {
             throw new EmailAlreadyExistsException(request.getEmail());
