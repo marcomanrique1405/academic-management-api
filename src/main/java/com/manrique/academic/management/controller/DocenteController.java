@@ -28,8 +28,7 @@ public class DocenteController {
     }
 
     @PostMapping("/buscar")
-    public List<DocenteResponse> buscarDocentePorFiltro(
-            @RequestBody(required = false) BuscarDocenteFiltroRequest request) {
+    public List<DocenteResponse> buscarDocentePorFiltro(@RequestBody(required = false) BuscarDocenteFiltroRequest request) {
         return docenteService.buscarDocentePorFiltros(request);
     }
 

@@ -39,7 +39,6 @@ public class MaestroController {
 
     @PutMapping("/{id}")
     public MaestroResponse actualizarMaestroCompleto(@RequestBody ActualizarMaestroRequest request, @PathVariable UUID id) {
-        System.out.println("ESTOY DENTRO");
         return maestroService.actualizarMaestroCompleto(request,id);
     }
 
