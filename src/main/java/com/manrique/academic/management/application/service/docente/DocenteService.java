@@ -106,6 +106,7 @@ public class DocenteService {
             throw new EmailAlreadyExistsException(request.getEmail());
         }
 
+        docente.setNumeroEmpleado(request.getNumeroEmpleado());
         docente.setNombreCompleto(request.getNombreCompleto());
         docente.setEmail(request.getEmail());
         docente.setEspecialidad(request.getEspecialidad());
@@ -125,29 +126,29 @@ public class DocenteService {
 
         Docente docente = optionalDocente.get();
 
-        if (docente.getNumeroEmpleado() != null) {
+        if (request.getNumeroEmpleado() != null) {
             if (docenteRepository.existsByNumeroEmpleado(request.getNumeroEmpleado())) {
                 throw new NumeroEmpleadoAlreadyExistsException(request.getNumeroEmpleado());
             }
             docente.setNumeroEmpleado(request.getNumeroEmpleado());
         }
 
-        if (docente.getNombreCompleto() != null) {
+        if (request.getNombreCompleto() != null) {
             docente.setNombreCompleto(request.getNombreCompleto());
         }
 
-        if (docente.getEmail() != null) {
+        if (request.getEmail() != null) {
             if (docenteRepository.existsByEmail(request.getEmail())) {
                 throw new EmailAlreadyExistsException(request.getEmail());
             }
             docente.setEmail(request.getEmail());
         }
 
-        if (docente.getEspecialidad() != null) {
+        if (request.getEspecialidad() != null) {
             docente.setEspecialidad(request.getEspecialidad());
         }
 
-        if (docente.getEstatus() != null) {
+        if (request.getEstatus() != null) {
             docente.setEspecialidad(request.getEspecialidad());
         }
 

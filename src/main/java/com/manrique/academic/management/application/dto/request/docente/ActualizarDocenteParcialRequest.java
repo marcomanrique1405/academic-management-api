@@ -12,6 +12,6 @@ public class ActualizarDocenteParcialRequest {
     private String nombreCompleto;
     private String email;
     private String especialidad;
-    private EstatusMaestro estaus;
+    private EstatusMaestro estatus;
 
 }
