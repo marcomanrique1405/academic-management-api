@@ -125,29 +125,29 @@ public class MaestroService {
 
         Maestro maestro = optionalMaestro.get();
 
-        if (maestro.getNumeroEmpleado() != null) {
+        if (request.getNumeroEmpleado() != null) {
             if (maestroRepository.existsByNumeroEmpleado(request.getNumeroEmpleado())) {
                 throw new NumeroEmpleadoAlreadyExistsException(request.getNumeroEmpleado());
             }
             maestro.setNumeroEmpleado(request.getNumeroEmpleado());
         }
 
-        if (maestro.getNombreCompleto() != null) {
+        if (request.getNombreCompleto() != null) {
             maestro.setNombreCompleto(request.getNombreCompleto());
         }
 
-        if (maestro.getEmail() != null ) {
+        if (request.getEmail() != null ) {
             if (maestroRepository.existsByEmail(request.getEmail())) {
                 throw new EmailAlreadyExistsException(request.getEmail());
             }
             maestro.setEmail(request.getEmail());
         }
 
-        if (maestro.getEspecialidad() != null) {
+        if (request.getEspecialidad() != null) {
             maestro.setEspecialidad(request.getEspecialidad());
         }
 
-        if (maestro.getEstatus() != null) {
+        if (request.getEstatus() != null) {
             maestro.setEspecialidad(request.getEspecialidad());
         }
 

@@ -138,26 +138,26 @@ public class AlumnoService {
 
         Alumno alumno = alumnoOptional.get();
 
-        if (alumno.getNombre() != null) {
+        if (request.getNombre() != null) {
             alumno.setNombre(request.getNombre());
         }
 
-        if (alumno.getApellidoPaterno() != null) {
+        if (request.getApellidoPaterno() != null) {
             alumno.setApellidoPaterno(request.getApellidoPaterno());
         }
 
-        if (alumno.getApellidoMaterno() != null) {
+        if (request.getApellidoMaterno() != null) {
             alumno.setApellidoMaterno(request.getApellidoMaterno());
         }
 
-        if (alumno.getEmail() != null) {
+        if (request.getEmail() != null) {
             if (alumnoRepository.existsByEmail(request.getEmail())) {
                 throw new EmailAlreadyExistsException(request.getEmail());
             }
             alumno.setEmail(request.getEmail());
         }
 
-        if (alumno.getEstatus() != null) {
+        if (request.getEstatus() != null) {
             alumno.setEstatus(request.getEstatus());
         }
 
