@@ -17,6 +17,5 @@ public class MateriaRequest {
     @NotBlank
     private String nombre;
 
-    @NotBlank
     private int creditos;
 }
