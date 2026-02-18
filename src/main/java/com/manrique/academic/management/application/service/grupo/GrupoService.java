@@ -1,9 +1,12 @@
 package com.manrique.academic.management.application.service.grupo;
 
+import com.manrique.academic.management.application.dto.request.grupo.ActualizarTodoGrupo;
 import com.manrique.academic.management.application.dto.request.grupo.GrupoRequest;
 import com.manrique.academic.management.application.dto.response.grupo.GrupoResponse;
 import com.manrique.academic.management.domain.model.Grupo;
 import com.manrique.academic.management.infrastructure.repository.GrupoRepository;
+import com.manrique.academic.management.shared.exception.grupo.ClaveGrupoAlreadyExistsException;
+import com.manrique.academic.management.shared.exception.grupo.GrupoNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -50,7 +53,7 @@ public class GrupoService {
         Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
 
         if (optionalGrupo.isEmpty()) {
-
+            throw new GrupoNotFoundException(id);
         }
 
         Grupo grupo = optionalGrupo.get();
@@ -62,10 +65,67 @@ public class GrupoService {
         Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
 
         if (optionalGrupo.isEmpty()) {
-            //TOCA AGREGAR UNA EXCEPTION
+            throw new GrupoNotFoundException(id);
         }
 
         grupoRepository.deleteById(id);
+    }
+
+    public GrupoResponse actualizarTodo(UUID id, ActualizarTodoGrupo request) {
+        Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
+
+        if (optionalGrupo.isEmpty()) {
+            throw new GrupoNotFoundException(id);
+        }
+
+        Grupo grupo = optionalGrupo.get();
+
+        if (grupoRepository.existsByClave(request.getClave())) {
+            throw new ClaveGrupoAlreadyExistsException(request.getClave());
+        }
+
+        grupo.setClave(request.getClave());
+        grupo.setCapacidad(request.getCapacidad());
+        grupo.setTurno(request.getTurno());
+        grupo.setSemestre(request.getSemestre());
+
+        grupoRepository.save(grupo);
+
+        return toResponse(grupo);
+
+    }
+
+    public GrupoResponse actualizarParcial(UUID id, ActualizarTodoGrupo request) {
+        Optional<Grupo> grupoOptional = grupoRepository.findById(id);
+
+        if (grupoOptional.isEmpty()) {
+            throw new GrupoNotFoundException(id);
+        }
+
+        Grupo grupo = grupoOptional.get();
+
+        if (request.getClave() != null) {
+            if (grupoRepository.existsByClave(request.getClave())) {
+                throw new ClaveGrupoAlreadyExistsException(request.getClave());
+            }
+            grupo.setClave(request.getClave());
+        }
+
+        if (request.getTurno() != null) {
+            grupo.setTurno(request.getTurno());
+        }
+
+        if (request.getSemestre() > 0) {
+            grupo.setSemestre(request.getSemestre());
+        }
+
+        if (request.getCapacidad() > 0) {
+            grupo.setCapacidad(request.getCapacidad());
+        }
+
+        grupoRepository.save(grupo);
+
+        return toResponse(grupo);
     }
 
 
