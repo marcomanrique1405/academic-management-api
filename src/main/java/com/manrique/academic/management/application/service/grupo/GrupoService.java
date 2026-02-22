@@ -26,13 +26,13 @@ public class GrupoService {
 
         }
 
-        Grupo grupo = new Grupo(
-                UUID.randomUUID(),
-                request.getClave(),
-                request.getTurno(),
-                request.getSemestre(),
-                request.getCapacidad()
-        );
+        Grupo grupo = Grupo.builder()
+                .id(UUID.randomUUID())
+                .clave(request.getClave())
+                .turno(request.getTurno())
+                .semestre(request.getSemestre())
+                .capacidad(request.getCapacidad())
+                .build();
 
         grupoRepository.save(grupo);
 
