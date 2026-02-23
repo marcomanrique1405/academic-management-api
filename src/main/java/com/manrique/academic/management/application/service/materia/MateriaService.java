@@ -28,12 +28,12 @@ public class MateriaService {
             throw new ClaveMateriaAlreadyExistsException(request.getClave());
         }
 
-        Materia materia = new Materia(
-                UUID.randomUUID(),
-                request.getClave(),
-                request.getNombre(),
-                request.getCreditos()
-        );
+        Materia materia = Materia.builder()
+                .id(UUID.randomUUID())
+                .clave(request.getClave())
+                .nombre(request.getNombre())
+                .creditos(request.getCreditos())
+                .build();
 
         materiaRepository.save(materia);
 

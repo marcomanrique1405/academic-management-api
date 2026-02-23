@@ -8,6 +8,7 @@ import com.manrique.academic.management.application.dto.response.docente.Docente
 import com.manrique.academic.management.domain.enums.EstatusDocente;
 import com.manrique.academic.management.domain.model.Docente;
 import com.manrique.academic.management.infrastructure.repository.DocenteRepository;
+import com.manrique.academic.management.shared.exception.docente.DocenteNotFoundException;
 import com.manrique.academic.management.shared.exception.maestro.EmailAlreadyExistsException;
 import com.manrique.academic.management.shared.exception.maestro.MaestroNotFoundException;
 import com.manrique.academic.management.shared.exception.maestro.NumeroEmpleadoAlreadyExistsException;
@@ -74,14 +75,14 @@ public class DocenteService {
             throw new EmailAlreadyExistsException(request.getEmail());
         }
 
-        Docente docente = new Docente(
-                UUID.randomUUID(),
-                request.getNumeroEmpleado(),
-                request.getNombreCompleto(),
-                request.getEmail(),
-                request.getEspecialidad(),
-                EstatusDocente.ACTIVO
-        );
+        Docente docente = Docente.builder()
+                .id(UUID.randomUUID())
+                .numeroEmpleado(request.getNumeroEmpleado())
+                .nombreCompleto(request.getNombreCompleto())
+                .email(request.getEmail())
+                .especialidad(request.getEspecialidad())
+                .estatus(EstatusDocente.ACTIVO)
+                .build();
 
         docenteRepository.save(docente);
 
@@ -92,7 +93,7 @@ public class DocenteService {
         Optional<Docente> optionalDocente = docenteRepository.findById(id);
 
         if (optionalDocente.isEmpty()) {
-            throw new MaestroNotFoundException(id);
+            throw new DocenteNotFoundException(id);
         }
 
         Docente docente = optionalDocente.get();
@@ -121,7 +122,7 @@ public class DocenteService {
         Optional<Docente> optionalDocente = docenteRepository.findById(id);
 
         if (optionalDocente.isEmpty()) {
-            throw new MaestroNotFoundException(id);
+            throw new DocenteNotFoundException(id);
         }
 
         Docente docente = optionalDocente.get();
@@ -161,7 +162,7 @@ public class DocenteService {
         Optional<Docente> optionalDocente = docenteRepository.findById(id);
 
         if (optionalDocente.isEmpty()) {
-            throw new MaestroNotFoundException(id);
+            throw new DocenteNotFoundException(id);
         }
 
         docenteRepository.deleteById(id);
