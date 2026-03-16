@@ -29,7 +29,7 @@ Este proyecto tiene como objetivo simular el backend de un sistema académico pe
 - Spring Data JPA
 - Hibernate
 - Spring Validation
-- H2 Database
+- PostgreSQL
 - Swagger / OpenAPI
 - Maven
 
