@@ -51,31 +51,24 @@ Shared → Contiene utilidades y clases compartidas entre capas.
 
 ---
 
-# Estructura del proyecto
+## Estructura del proyecto
 
-
+```text
 src/main/java
 ├── application
-│ ├── dto
-│ │ ├── request
-│ │ └── response
-│ └── service
-│
+│   ├── dto
+│   │   ├── request
+│   │   └── response
+│   └── service
 ├── controller
-│
 ├── domain
-│ ├── model
-│ └── enums
-│
+│   ├── model
+│   └── enums
 ├── infrastructure
-│ ├── config
-│ └── repository
-│
+│   ├── config
+│   └── repository
 └── shared
-
-
----
-
+```
 # Requisitos
 
 - Java 17
