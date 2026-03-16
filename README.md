@@ -24,15 +24,14 @@ Este proyecto tiene como objetivo simular el backend de un sistema académico pe
 # Tecnologías utilizadas
 
 - Java 17
-- Spring Boot 3
+- Spring Boot
 - Spring Web
-- Spring Data JPA
-- Hibernate
+- Spring Data JPA (Hibernate)
 - Spring Validation
 - PostgreSQL
 - Swagger / OpenAPI
+- Lombok
 - Maven
-
 ---
 
 # Arquitectura del proyecto
